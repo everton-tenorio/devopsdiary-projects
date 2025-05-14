@@ -1,43 +1,42 @@
-# Stage 1: Build
+# STAGE 1: builder
 FROM node:22-alpine AS builder
-
-ENV NODE_ENV=development
-
 WORKDIR /build
 
+# 1 - Install (dev e prod)
 COPY app/package.json app/package-lock.json ./
-# Instala todas as dependências, incluindo devDependencies
 RUN npm ci
-COPY app/ . 
+
+# 2 - Build
+COPY app/ .
 COPY app/src/index.html .
 RUN npm run build
-# RUN npm run test
 
-# Stage 2: Runtime
-FROM node:22-alpine AS runtime
+# 3 - Remove devDependencies
+RUN npm prune --production
+
+# STAGE 2: runtime
+FROM gcr.io/distroless/nodejs22-debian12
+
 WORKDIR /app
-ENV NODE_ENV=production
-
-RUN apk add --no-cache curl
 
 # non-root user
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup
-USER appuser
+USER nonroot
 
-# Copiar binários e artefatos
-COPY --from=builder /build/dist /app/dist/
-COPY --from=builder /build/index.html /app/dist/index.html
-COPY --from=builder /build/package.json /app/
-COPY --from=builder /build/node_modules /app/node_modules 
-
-EXPOSE 3000
+# Copy final files and deps production
+COPY --from=builder /build/dist ./dist
+COPY --from=builder /build/index.html ./dist/index.html
+COPY --from=builder /build/node_modules ./node_modules
+COPY --from=builder /build/package.json ./
+COPY --from=builder /build/health.js ./
 
 # Healthcheck
+EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
-  CMD curl -sf -o /dev/null -w "%{http_code}\n" http://localhost:3000/ || exit 1
+  CMD ["/nodejs/bin/node", "health.js"]
 
-CMD ["node", "dist/app.js"]
-
+# prod
+CMD ["dist/app.js"]
 LABEL maintainer="github.com/everton-tenorio" \
       version="1.0" \
-      description="Aplicação Express"
+      description="Aplicação Express otimizada"
+
