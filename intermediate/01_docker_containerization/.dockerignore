@@ -1,0 +1,53 @@
+# Dependências locais
+node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Caches
+.npm
+.cache
+
+# Diretórios de testes e cobertura
+tests/
+coverage/
+
+# Arquivos de configuração de CI/CD
+.travis.yml
+.gitlab-ci.yml
+Jenkinsfile
+
+# Arquivos de desenvolvimento
+.git
+.gitignore
+.vscode
+
+# Arquivos de build e artefatos
+dist/
+build/
+*.tar.gz
+
+# Arquivos sensíveis
+*.pem
+*.key
+*.crt
+
+# Arquivos de configuração e ambiente
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Arquivos de licença e README (opcional)
+LICENSE
+README.md
+CHANGELOG.md
+
+# Arquivos de configuração de editores
+.editorconfig
+.prettierrc
+.eslintrc

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        h2 {
+            color: #34495e;
+        }
+        .endpoint {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .method {
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        .path {
+            font-family: monospace;
+            color: #2980b9;
+        }
+        .description {
+            margin-top: 5px;
+        }
+        .note {
+            font-style: italic;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to the API</h1>
+    <p>This API provides endpoints for user registration, login, and management. Below is a list of available endpoints to get you started.</p>
+
+    <div class="endpoint">
+        <h2><span class="method">POST</span> <span class="path">/auth/register</span></h2>
+        <p class="description">Register a new user account.</p>
+        <p><strong>Request Body:</strong> JSON with <code>username</code> and <code>password</code>.</p>
+        <p><strong>Example:</strong> <code>{"username": "user", "password": "pass123"}</code></p>
+        <p><strong>Response:</strong> Returns a success message and user ID on successful registration.</p>
+    </div>
+
+    <div class="endpoint">
+        <h2><span class="method">POST</span> <span class="path">/auth/login</span></h2>
+        <p class="description">Log in to an existing user account.</p>
+        <p><strong>Request Body:</strong> JSON with <code>username</code> and <code>password</code>.</p>
+        <p><strong>Example:</strong> <code>{"username": "user", "password": "pass123"}</code></p>
+        <p><strong>Response:</strong> Returns a JWT token for authentication.</p>
+    </div>
+
+    <div class="endpoint">
+        <h2><span class="method">GET</span> <span class="path">/users</span></h2>
+        <p class="description">List all registered users.</p>
+        <p><strong>Authentication:</strong> Requires a valid JWT token in the <code>Authorization</code> header (Bearer token).</p>
+        <p><strong>Example:</strong> <code>Authorization: Bearer <your-token></code></p>
+        <p><strong>Response:</strong> Returns a list of users.</p>
+        <p class="note">Note: You must be authenticated to access this endpoint.</p>
+    </div>
+
+    <div class="endpoint">
+        <h2><span class="method">GET</span> <span class="path">/users/me</span></h2>
+        <p class="description">Retrieve information about the authenticated user.</p>
+        <p><strong>Authentication:</strong> Requires a valid JWT token in the <code>Authorization</code> header (Bearer token).</p>
+        <p><strong>Example:</strong> <code>Authorization: Bearer <your-token></code></p>
+        <p><strong>Response:</strong> Returns the authenticated user's details.</p>
+        <p class="note">Note: You must be authenticated to access this endpoint.</p>
+    </div>
+
+    <p class="note">To interact with the API, start by registering a user at <code>/auth/register</code>, then log in at <code>/auth/login</code> to obtain a JWT token. Use this token to access protected endpoints.</p>
+</body>
+</html>
